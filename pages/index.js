@@ -1,6 +1,10 @@
 import Head from 'next/head';
+import { getSession, signOut } from 'next-auth/client';
+import Image from 'next/image';
 
-export default function Home() {
+export default function Home({ session }) {
+    console.log('HOME PAGE SESSION: ', session);
+    const user = session.user;
     return (
         <div>
             <Head>
@@ -12,9 +16,49 @@ export default function Home() {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
 
-            <main>
-                <h1>Welcome to Next Auth</h1>
+            <main className='h-screen flex justify-center items-center'>
+                <div className='flex flex-col space-y-4 text-center items-center'>
+                    <h1 className='uppercase text-lg'>
+                        Welcome to Next Auth - Home Page
+                    </h1>
+                    <p>You are logged in</p>
+                    <p>{user.name}</p>
+                    <div className='rounded-full flex justify-center shadow-lg w-[100px]'>
+                        <Image
+                            src={user.image}
+                            alt={user.name}
+                            width={100}
+                            height={100}
+                            className='rounded-full'
+                        />
+                    </div>
+                    <button
+                        className='border py-3 px-8'
+                        onClick={() => signOut()}
+                    >
+                        Log out
+                    </button>
+                </div>
             </main>
         </div>
     );
+}
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+
+    // if have no session -> not authentication yet -> redirect to login page
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        };
+    }
+
+    // if session already -> return session props
+    return {
+        props: { session },
+    };
 }

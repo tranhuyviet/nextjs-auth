@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .login-btn {
+        @apply border w-72 py-3 px-10 shadow-md;
+    }
+}
