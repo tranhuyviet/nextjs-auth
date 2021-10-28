@@ -16,7 +16,7 @@ export default function Home({ session }) {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
 
-            <main className='h-screen flex justify-center items-center'>
+            <main className='h-[calc(100vh-64px)] flex justify-center items-center'>
                 <div className='flex flex-col space-y-4 text-center items-center'>
                     <h1 className='uppercase text-lg'>
                         Welcome to Next Auth - Home Page

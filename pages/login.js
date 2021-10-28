@@ -1,8 +1,11 @@
-import { getSession, signIn } from 'next-auth/client';
+import { getSession, signIn, csrfToken, providers } from 'next-auth/client';
 import React from 'react';
+import LoginButton from '../components/LoginButton';
 
-const Login = ({ session }) => {
+const Login = ({ session, csrfToken, providers }) => {
     console.log('LOGIN PAGE SESSION: ', session);
+    console.log('LOGIN PAGE CSRFTOKEN: ', csrfToken);
+    console.log('LOGIN PAGE PROVIDERS: ', providers);
     return (
         <div className='flex justify-center items-center h-screen'>
             <div className='flex flex-col items-center shadow-lg'>
@@ -10,46 +13,42 @@ const Login = ({ session }) => {
                     Login
                 </h1>
                 <div className='flex flex-col space-y-4 p-10'>
-                    <button
-                        className='login-btn'
-                        onClick={() => signIn('google')}
-                    >
-                        Login with Google
-                    </button>
-                    <button
-                        className='login-btn'
-                        onClick={() => signIn('facebook')}
-                    >
-                        Login with Facebook
-                    </button>
-                    <button
-                        className='login-btn'
-                        onClick={() => signIn('github')}
-                    >
-                        Login with Github
-                    </button>
+                    <LoginButton
+                        provider={providers.google}
+                        csrfToken={csrfToken}
+                        // className='bg-[#DF492F]'
+                        className='text-gray-700 border'
+                        icon='/images/icon-google.svg'
+                    />
+                    <LoginButton
+                        provider={providers.facebook}
+                        csrfToken={csrfToken}
+                        className='bg-[#314A86]'
+                        icon='/images/icon-facebook.svg'
+                    />
+                    <LoginButton
+                        provider={providers.github}
+                        csrfToken={csrfToken}
+                        className='bg-[#232628]'
+                        icon='/images/icon-github.svg'
+                    />
                 </div>
             </div>
         </div>
     );
 };
 
-export default Login;
-
 export async function getServerSideProps(context) {
     const session = await getSession(context);
 
-    // if session already -> redirect to home page
-    if (session) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            },
-        };
-    }
-
+    if (session) return { redirect: { destination: '/', permanent: false } };
     return {
-        props: { session },
+        props: {
+            providers: await providers(context),
+            session,
+            csrfToken: await csrfToken(context),
+        },
     };
 }
+
+export default Login;

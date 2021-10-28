@@ -4,10 +4,10 @@
 
 @layer components {
     .login-btn {
-        @apply border w-72 py-3 px-10 shadow-md;
+        @apply border-gray-50 w-72 py-3 px-10 shadow-md rounded-lg drop-shadow-lg tracking-wide;
     }
 
     .container {
-        @apply max-w-5xl mx-auto;
+        @apply max-w-6xl mx-auto;
     }
 }
