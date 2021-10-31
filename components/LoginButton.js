@@ -1,6 +1,5 @@
 import React from 'react';
 import { signIn } from 'next-auth/client';
-import Image from 'next/image';
 
 const LoginButton = ({ provider, csrfToken, className, icon }) => {
     const handleSubmit = async (e) => {
@@ -16,12 +15,7 @@ const LoginButton = ({ provider, csrfToken, className, icon }) => {
                 className={`login-btn text-gray-50 ${className}`}
             >
                 <div className='flex items-center'>
-                    <img
-                        src={icon}
-                        alt={provider.name}
-                        width={32}
-                        height={32}
-                    />
+                    <img src={icon} alt={provider.name} className='h-8 w-8' />
                     <p className='ml-2'>Log in with {provider.name}</p>
                 </div>
             </button>

@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Navbar = () => {
     const [session, loading] = useSession();
-    console.log('NAVBAR SESSION: ', session);
+    // console.log('NAVBAR SESSION: ', session);
     return (
         <nav className='h-16 bg-green-600 text-gray-50 shadow-xl'>
             <div className='container h-full flex items-center'>

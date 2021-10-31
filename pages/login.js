@@ -3,9 +3,9 @@ import React from 'react';
 import LoginButton from '../components/LoginButton';
 
 const Login = ({ session, csrfToken, providers }) => {
-    console.log('LOGIN PAGE SESSION: ', session);
-    console.log('LOGIN PAGE CSRFTOKEN: ', csrfToken);
-    console.log('LOGIN PAGE PROVIDERS: ', providers);
+    // console.log('LOGIN PAGE SESSION: ', session);
+    // console.log('LOGIN PAGE CSRFTOKEN: ', csrfToken);
+    // console.log('LOGIN PAGE PROVIDERS: ', providers);
     return (
         <div className='flex justify-center items-center h-screen'>
             <div className='flex flex-col items-center shadow-lg'>
