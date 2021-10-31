@@ -25,4 +25,10 @@ export default NextAuth({
     },
     // Database
     database: process.env.MONGODB_URL,
+    callbacks: {
+        session: async (session, user) => {
+            session.userLoggedInId = user.sub;
+            return Promise.resolve(session);
+        },
+    },
 });
