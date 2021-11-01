@@ -5,6 +5,7 @@ import UserList from '../components/UserList';
 import { request, gql } from 'graphql-request';
 
 export default function Home({ users }) {
+    // console.log(users);
     return (
         <div>
             <Head>
@@ -35,8 +36,9 @@ export default function Home({ users }) {
     );
 }
 
-export async function getServerSideProps(context) {
-    const session = await getSession(context);
+export async function getServerSideProps({ req, res }) {
+    const session = await getSession({ req });
+    console.log('HOME SESSION', session);
 
     // if have no session -> not authentication yet -> redirect to login page
     if (!session) {
@@ -56,9 +58,11 @@ export async function getServerSideProps(context) {
     return {
         props: {
             users: data.getUsers.map((user) => {
-                console.log(user._id, session);
                 if (user._id === session.userLoggedInId) {
                     user.name = `${user.name}   --- YOU`;
+                    user.selected = true;
+                } else {
+                    user.selected = false;
                 }
                 return user;
             }),

@@ -8,8 +8,25 @@ const typeDefs = gql`
         image: String
     }
 
+    type Post {
+        _id: ID!
+        content: String!
+        user: User
+    }
+
+    type ReturnPosts {
+        total: Int!
+        hasMore: Boolean!
+        posts: [Post!]
+    }
+
     type Query {
         getUsers: [User!]
+        getPostsByUserId(userId: ID!): ReturnPosts
+    }
+
+    type Mutation {
+        addPost(content: String!): ReturnPosts!
     }
 `;
 
