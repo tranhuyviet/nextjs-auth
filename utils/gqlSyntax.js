@@ -1,7 +1,8 @@
 import { gql } from 'graphql-request';
 
 // GRAPHQL SERVER ENDPOINT
-export const endpoint = 'http://localhost:3000/api/graphql';
+// export const endpoint = 'http://localhost:3000/api/graphql';
+export const endpoint = 'https://next-auth-viet.vercel.app/api/graphql';
 
 // USER
 export const QUERY_GET_USERS = gql`

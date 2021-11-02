@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserList = ({ users }) => {
+const UserList = ({ users, setUserId, userId }) => {
     return (
         <div className='border min-w-[280px] shadow-xl'>
             <h1 className='title border-b border-b-white'>User List</h1>
@@ -10,8 +10,9 @@ const UserList = ({ users }) => {
                         <div
                             key={user._id}
                             className={`relative border-b flex items-center hover:cursor-pointer hover:bg-gray-100 hover:shadow-sm  pl-4 pr-8 py-[6px] transition duration-300 last:border-0 ${
-                                user.selected && 'bg-gray-100'
+                                userId === user._id && 'bg-gray-100'
                             }`}
+                            onClick={() => setUserId(user._id)}
                         >
                             <img
                                 src={user.image}
@@ -21,10 +22,10 @@ const UserList = ({ users }) => {
                             <span className='font-semibold ml-4'>
                                 {user.name}
                             </span>
-                            {user.selected && (
+                            {userId === user._id && (
                                 <svg
                                     xmlns='http://www.w3.org/2000/svg'
-                                    className='h-6 w-6 absolute right-1 text-gray-700'
+                                    className='h-7 w-7 absolute right-1 text-green-600'
                                     fill='none'
                                     viewBox='0 0 24 24'
                                     stroke='currentColor'

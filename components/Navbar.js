@@ -7,7 +7,7 @@ const Navbar = () => {
     return (
         <nav className='h-16 shadow-xl'>
             <div className='container h-full flex items-center'>
-                <h1 className='uppercase font-bold text-xl first-letter:text-yellow-300 tracking-widest'>
+                <h1 className='uppercase font-bold text-xl first-letter:text-green-600 tracking-widest'>
                     next-auth
                 </h1>
                 <div className='flex items-center space-x-4 ml-auto'>

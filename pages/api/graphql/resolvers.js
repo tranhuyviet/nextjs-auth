@@ -16,7 +16,9 @@ const resolvers = {
         },
         getPostsByUserId: async (_, { userId }) => {
             try {
-                const posts = await Post.find({ user: userId });
+                const posts = await Post.find({ user: userId }).sort({
+                    updatedAt: -1,
+                });
 
                 let total = 0;
                 let hasMore = true;
