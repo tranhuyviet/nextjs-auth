@@ -11,7 +11,9 @@ const typeDefs = gql`
     type Post {
         _id: ID!
         content: String!
-        user: User
+        user: User!
+        createdAt: String!
+        updatedAt: String!
     }
 
     type ReturnPosts {

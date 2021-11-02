@@ -14,10 +14,32 @@ const resolvers = {
                 console.log('GET USERS ERROR: ', error);
             }
         },
+        getPostsByUserId: async (_, { userId }) => {
+            try {
+                const posts = await Post.find({ user: userId });
+
+                let total = 0;
+                let hasMore = true;
+                if (posts) total = posts.length;
+
+                const returnPost = {
+                    total,
+                    hasMore,
+                    posts,
+                };
+
+                return returnPost;
+            } catch (error) {
+                return error;
+            }
+        },
     },
     Mutation: {
         addPost: async (_, { content }, { userId }) => {
             try {
+                // check authorization
+                if (!userId) throw new Error('Unauthorized');
+
                 const newPost = new Post({
                     content,
                     user: userId,
@@ -32,7 +54,8 @@ const resolvers = {
                 console.log(newPost);
                 return newPost;
             } catch (error) {
-                console.log('ADD POST ERROR: ', error);
+                // console.log('ADD POST ERROR: ', error);
+                return error;
             }
         },
     },
