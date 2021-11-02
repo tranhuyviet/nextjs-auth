@@ -10,7 +10,7 @@ import connectDatabase from '../../../mongodb/connectDatabase';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 
-import { getSession } from 'next-auth/client';
+import jwt from 'next-auth/jwt';
 
 connectDatabase();
 
@@ -24,8 +24,14 @@ const apolloServer = new ApolloServer({
     playground: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
 
-    context: ({ req, res }) => {
-        return { req, res };
+    context: async ({ req, res }) => {
+        const secret = process.env.JWT_SECRET;
+        const token = await jwt.getToken({ req, secret });
+        let userId = null;
+        if (token) {
+            userId = token.sub;
+        }
+        return { req, res, userId };
     },
 
     // context: async ({ req, res }) => {

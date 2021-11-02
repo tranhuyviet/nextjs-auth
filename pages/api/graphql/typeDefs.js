@@ -26,7 +26,7 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addPost(content: String!): ReturnPosts!
+        addPost(content: String!): Post!
     }
 `;
 

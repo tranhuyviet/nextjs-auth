@@ -1,5 +1,5 @@
 import User from './models/userModel';
-import { getSession } from 'next-auth/client';
+import Post from './models/postModel';
 
 const resolvers = {
     Query: {
@@ -16,17 +16,21 @@ const resolvers = {
         },
     },
     Mutation: {
-        addPost: async (_, { content }, { req, res }) => {
+        addPost: async (_, { content }, { userId }) => {
             try {
-                const session = await getSession({ req });
-                // const token = await getToken({ req });
-                console.log('mutation session ', session, token);
-                // console.log(context.req.headers.authorization.split(' ')[1]);
-                // const token = jwt_decode(
-                //     context.req.headers.authorization.split(' ')[1]
-                // );
-                // console.log(token);
-                return {};
+                const newPost = new Post({
+                    content,
+                    user: userId,
+                });
+
+                await newPost.save();
+                await newPost.populate({
+                    path: 'user',
+                    select: 'name image email',
+                });
+
+                console.log(newPost);
+                return newPost;
             } catch (error) {
                 console.log('ADD POST ERROR: ', error);
             }
