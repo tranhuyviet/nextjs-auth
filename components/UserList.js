@@ -3,9 +3,7 @@ import React from 'react';
 const UserList = ({ users }) => {
     return (
         <div className='border min-w-[280px] shadow-xl'>
-            <h1 className='bg-green-600 text-white text-lg text-center uppercase py-3 font-bold tracking-wider border-b border-b-white'>
-                User List
-            </h1>
+            <h1 className='title border-b border-b-white'>User List</h1>
             <div className=''>
                 {users &&
                     users.map((user) => (

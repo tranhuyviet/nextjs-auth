@@ -10,4 +10,12 @@
     .container {
         @apply max-w-7xl mx-auto px-4;
     }
+
+    .title {
+        @apply bg-green-600 text-white text-lg text-center uppercase py-3 font-bold tracking-wider;
+    }
+
+    .btn {
+        @apply py-2 px-8 rounded-full shadow-lg bg-green-600 text-gray-50 font-semibold tracking-wide hover:bg-green-500 transition-all duration-300;
+    }
 }

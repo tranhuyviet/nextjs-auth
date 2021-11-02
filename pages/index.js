@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import { getSession, signOut } from 'next-auth/client';
-import Image from 'next/image';
+import { getSession } from 'next-auth/client';
 import UserList from '../components/UserList';
-import { request, gql } from 'graphql-request';
+import { request } from 'graphql-request';
+import PostList from '../components/Posts/PostList';
+import { QUERY_GET_USERS, endpoint } from '../utils/gqlSyntax';
 
 export default function Home({ users }) {
     // console.log(users);
@@ -21,15 +22,9 @@ export default function Home({ users }) {
                 <div className='mt-4'>
                     <UserList users={users} />
                 </div>
-                <div className='flex justify-center items-center flex-auto '>
-                    <div className='text-center'>
-                        <h1 className='uppercase text-lg font-bold'>
-                            Welcome to Next Auth - Home Page
-                        </h1>
-                        <p className='uppercase font-semibold'>
-                            You are logged in
-                        </p>
-                    </div>
+                {/* 64px: banner, 16px: mt-4, 16px: can show shadow */}
+                <div className='flex-auto  mt-4 ml-4 h-[calc(100vh-64px-16px-16px)] shadow-xl'>
+                    <PostList />
                 </div>
             </main>
         </div>
@@ -38,7 +33,7 @@ export default function Home({ users }) {
 
 export async function getServerSideProps({ req, res }) {
     const session = await getSession({ req });
-    console.log('HOME SESSION', session);
+    // console.log('HOME SESSION', session);
 
     // if have no session -> not authentication yet -> redirect to login page
     if (!session) {
@@ -49,8 +44,6 @@ export async function getServerSideProps({ req, res }) {
             },
         };
     }
-
-    const endpoint = process.env.NEXTAUTH_URL + '/api/graphql';
 
     const data = await request(endpoint, QUERY_GET_USERS);
 
@@ -69,14 +62,3 @@ export async function getServerSideProps({ req, res }) {
         },
     };
 }
-
-const QUERY_GET_USERS = gql`
-    query GetUsers {
-        getUsers {
-            _id
-            name
-            email
-            image
-        }
-    }
-`;
