@@ -3,9 +3,13 @@ import { getSession } from 'next-auth/client';
 import UserList from '../components/UserList';
 import { request } from 'graphql-request';
 import PostList from '../components/Posts/PostList';
-import { QUERY_GET_USERS, endpoint } from '../utils/gqlSyntax';
+import {
+    endpoint,
+    QUERY_GET_USERS,
+    QUERY_GET_POSTS_BY_USERID,
+} from '../utils/gqlSyntax';
 
-export default function Home({ users }) {
+export default function Home({ users, posts }) {
     // console.log(users);
     return (
         <div>
@@ -23,8 +27,8 @@ export default function Home({ users }) {
                     <UserList users={users} />
                 </div>
                 {/* 64px: banner, 16px: mt-4, 16px: can show shadow */}
-                <div className='flex-auto  mt-4 ml-4 h-[calc(100vh-64px-16px-16px)] shadow-xl'>
-                    <PostList />
+                <div className='flex-auto  mt-4 ml-4 max-h-[calc(100vh-64px-16px-16px)] shadow-xl '>
+                    <PostList posts={posts} />
                 </div>
             </main>
         </div>
@@ -45,12 +49,16 @@ export async function getServerSideProps({ req, res }) {
         };
     }
 
-    const data = await request(endpoint, QUERY_GET_USERS);
+    const users = await request(endpoint, QUERY_GET_USERS);
+
+    const posts = await request(endpoint, QUERY_GET_POSTS_BY_USERID, {
+        userId: '6180379c8bb3480c85b762d6',
+    });
 
     // if session already -> return users props
     return {
         props: {
-            users: data.getUsers.map((user) => {
+            users: users.getUsers.map((user) => {
                 if (user._id === session.userLoggedInId) {
                     user.name = `${user.name}   --- YOU`;
                     user.selected = true;
@@ -59,6 +67,7 @@ export async function getServerSideProps({ req, res }) {
                 }
                 return user;
             }),
+            posts: posts.getPostsByUserId,
         },
     };
 }

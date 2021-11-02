@@ -21,7 +21,7 @@ const PostForm = () => {
                     rows={4}
                     ref={inputRef}
                 />
-                <button type='submit' className='btn mt-4'>
+                <button type='submit' className='btn mt-6'>
                     Post
                 </button>
             </form>
